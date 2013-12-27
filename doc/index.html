@@ -1,0 +1,465 @@
+<!--(c) Copyright 2012, VersionOne, Inc. All rights reserved. (c)-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>VersionOne Fitness Integration</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+<td style="width:10%"/>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            VersionOne Fitness Integration
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on May 24, 2011 by <font color="#0050B2">jerry</font>.
+                                    </div>
+
+				    <style type='text/css'>/*<![CDATA[*/
+div.rbtoc1280305528888 {margin-left: 0px;padding: 0px;}
+div.rbtoc1280305528888 ul {list-style: none;margin-left: 0px;}
+div.rbtoc1280305528888 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='rbtoc1280305528888'>
+<ul>
+    <li><span class='TOCOutline'>1</span> <a href='#VersionOneFitnessIntegration-Description'>Description</a></li>
+    <li><span class='TOCOutline'>2</span> <a href='#VersionOneFitnessIntegration-SystemRequirements'>System Requirements</a></li>
+    <li><span class='TOCOutline'>3</span> <a href='#VersionOneFitnessIntegration-Download'>Download</a></li>
+    <li><span class='TOCOutline'>4</span> <a href='#VersionOneFitnessIntegration-Installation'>Installation</a></li>
+    <li><span class='TOCOutline'>5</span> <a href='#VersionOneFitnessIntegration-Configuration'>Configuration</a></li>
+<ul>
+    <li><span class='TOCOutline'>5.1</span> <a href='#VersionOneFitnessIntegration-SetuptheFitNesseTestRunner'>Setup the FitNesse TestRunner </a></li>
+    <li><span class='TOCOutline'>5.2</span> <a href='#VersionOneFitnessIntegration-ConfigureVersionOne'>Configure VersionOne </a></li>
+    <li><span class='TOCOutline'>5.3</span> <a href='#VersionOneFitnessIntegration-ConfiguretheIntegration'>Configure the Integration </a></li>
+</ul>
+    <li><span class='TOCOutline'>6</span> <a href='#VersionOneFitnessIntegration-TechnicalDetails'>Technical Details</a></li>
+</ul></div>
+
+<h2><a name="VersionOneFitnessIntegration-Description"></a>Description</h2>
+<p>The VersionOne FitNesse Integration (V1Fit) imports FitNesse test results into VersionOne, making the latest test results more visible across the an organization. The results can be recorded at two different levels of granularity—project and test. The aggregate results for a suite of tests in FitNesse can be linked to a project in VersionOne, so that everyone can see the health of their project from a testing standpoint from within VersionOne. The results of an individual FitNesse acceptance test can be linked to a Test in VersionOne, so that development team members receive quick feedback on which tests are passing and failing.</p>
+
+<p>The integration point with FitNesse is the xml formatted results file. When configuring the integration, teams must automate a process that runs the FitNesse tests, transforms the results into the FitNesse xml format, and stores the results in an output directory. V1Fit watches the output directory for new files and imports the results into VersionOne.</p>
+
+<p>Once V1Fit has been installed, VersionOne users update the reference field for test suites or tests with the path to the corresponding suite or test page in FitNesse. A single VersionOne test suite can be assigned to one or more VersionOne projects. The Test Run Trend report shows the aggregated test results for the test suite which was assigned to the project at the time of the test run. For individual tests, each test in VersionOne should have its own test page in FitNesse. V1Fit considers a test passing if all of the assertions for that test are passing. If a test fails on a story or defect that is already closed, V1Fit can be configured to create a defect in the current iteration, so the team is notified of the failing test. </p>
+
+<p>The following sequence diagram illustrates how V1Fit interacts with FitNesse and VersionOne.<br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 662x520" href='attachments/Fitnesse/7209249.png'><img src="attachments/thumbnails/Fitnesse/7209249" border="0"/></a></span></p>
+
+<h2><a name="VersionOneFitnessIntegration-SystemRequirements"></a>System Requirements</h2>
+<ul>
+	<li>VersionOne: 7.1 or above, including Team Edition</li>
+	<li>Integration Server:
+	<ul>
+		<li>Operating System — Windows 2003, 2008</li>
+		<li>Framework—Microsoft .Net 2.0 SP1</li>
+		<li>FitNesse — Release v20060719 — v20090513</li>
+		<li>FitServer — Version 1.8.3183.38423</li>
+	</ul>
+	</li>
+</ul>
+
+
+<h2><a name="VersionOneFitnessIntegration-Download"></a>Download</h2>
+<p>The latest version of V1Fit is available from <a href="http://community.versionone.com/Downloads/default.aspx">the VersionOne Community site </a></p>
+
+<h2><a name="VersionOneFitnessIntegration-Installation"></a>Installation </h2>
+<p>These installation instructions assume that FitNesse is already installed, configured, and working properly.</p>
+<ol>
+	<li>Determine Install Location<br/>
+V1Fit can be installed on any server with network access to both VersionOne and FitNesse.  Exact placement should be determined by your internal software management requirements. The integration server must meet the System Requirements stated above.<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	<li>Extract Files<br/>
+Download V1Fit using the link above and extract it into a folder of your choice.<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	<li>Configure
+	<ol>
+		<li><a href="#VersionOneFitnessIntegration-ConfigureFitnesse">Setup the FitNesse TestRunner</a></li>
+		<li><a href="#VersionOneFitnessIntegration-ConfigureVersionOne">Configure VersionOne</a></li>
+		<li><a href="#VersionOneFitnessIntegration-ConfigureServiceHost">Configure The Integration</a><br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	</ol>
+	</li>
+	<li>Start integration<br/>
+Open up the command prompt, navigate to your installation folder, and run the following command:
+<blockquote><p><tt>VersionOne.ServiceHost.exe</tt></p></blockquote>
+<p>If you have configured your system properly, you should see several [Info] messages followed by a [Startup] message.<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></p></li>
+	<li>Test the integration<br/>
+To ensure the integration is working, drop a FitNesse results xml file into your watch folder. 
+	<ol>
+		<li>
+		<ul>
+			<li>If the file contains no test for the TestSuite you defined in VersionOne, you should see the following messages:
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">
+[Info] Starting Processing File: C:\PathToWatchFolder\WatchFolder\Results.xml
+[Info] Finished Processing File: C:\PathToWatchFolder\WatchFolder\Results.xml
+</pre>
+</div></div></li>
+			<li>If the file contains results for the TestSuite you defined in VersionOne, you should see results similar to the following:
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">
+[Info] Starting Processing File: C:\PathToWatchFolder\WatchFolder\Results2.xml
+[Info] Suite:
+                TestRun.Date = 1/1/2007 8:13:00 AM
+                TestRun.Failed = 0
+                TestRun.Elapsed = 0
+                TestRun.Description = Fit Test Suite
+                TestRun.Passed = 1
+                TestRun.NotRun = 0
+                TestRun.Name = SuiteAllTests.SuiteProjectA
+                TestRun.TestSuite = TestSuite:1069
+
+[Info] Finished Processing File: C:\PathToWatchFolder\WatchFolder\Results2.xml
+</pre>
+</div></div>
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>V1Fit only processes a file once, so changing the contents of a file after it has been processed will have no effect. If you want to reprocess a file, save it with a new name.</td></tr></table></div></li>
+		</ul>
+		</li>
+		<li>Shut down the service host by pressing “Q” in the console window.<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	</ol>
+	</li>
+	<li>Install as a Windows Service<br/>
+Run the following command from the console window:
+<blockquote><p><tt>VersionOne.ServiceHost.exe --install</tt></p></blockquote>
+<p>This command installs the service so it will will run under the account NT AUTHORITY\Local Service. Local Service must be given access privileges to the directory where the V1ClearQuest executable was installed so it can store its state and write to log files. Follow the steps below to change the security on the installation directory:</p>
+	<ol>
+		<li>Right click the installation folder from Windows Explorer.</li>
+		<li>Select "properties".</li>
+		<li>Select the "Security" tab.</li>
+		<li>Click the "Add" button.</li>
+		<li>Enter "Local Service" and click "OK".</li>
+		<li>Click the "Allow" checkbox for the "Full Control" row .</li>
+		<li>Click "OK" to save the changes.</li>
+	</ol>
+	</li>
+</ol>
+
+
+<h2><a name="VersionOneFitnessIntegration-Configuration"></a>Configuration</h2>
+<h3><a name="VersionOneFitnessIntegration-SetuptheFitNesseTestRunner"></a>Setup the FitNesse TestRunner<a name="VersionOneFitnessIntegration-ConfigureFitnesse"></a></h3>
+<p> FitNesse is a wiki that provides a powerful interface for specifying and running acceptance tests, but it also includes the capability to run tests from the command line. Although FitServer implementations vary, they generally include a Test Runner executable that can be run from the command line to execute a suite of FitNesse tests.<br/>
+The steps below show the commands that could be used to set up a test runner for a FitNesse instance that is using .Net Fit 1.1 as its FitServer. They are intended as a process guide. The exact commands and their parameters are dependent on your FitServer implementation and environmental configuration.</p>
+
+<ol>
+	<li>Use TestRunner.exe to run the tests and store the results in a text file.
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">
+      TestRunner -results Results.txt localhost 8080 SuiteAllTests *.dll
+</pre>
+</div></div></li>
+	<li>Use fitnesse.runner.FormattingOption to transform your tests into XML.
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">
+      java fitnesse.runner.FormattingOption Results.txt xml Results.xml localhost 8080 SuiteAllTests
+</pre>
+</div></div>
+<p>The FormattingOption class is part of the java FitServer implementation and may not have been ported to your FitServer implementation.</p></li>
+	<li>Automate test runs.<br/>
+How you automate the test runs should be driven by the requirements of the development team. Some teams run them at regularly scheduled intervals, such as nightly. Other teams run them after every successful build. Teams with a large number of tests may do a combination of both.
+<h3><a name="VersionOneFitnessIntegration-ConfigureVersionOne"></a>Configure VersionOne<a name="VersionOneFitnessIntegration-ConfigureVersionOne"></a> </h3>
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>If you are using Team Edition, you need to manually create the Test Suite.  Instructions for doing this are available on the <a href="http://community.versionone.com/KnowledgeBase/FAQs/Q11420.aspx">VersionOne Community Site</a>.</td></tr></table></div></li>
+
+
+	<li>Add a TestSuite in VersionOne<br/>
+Navigate to the page Administration &gt; Projects &gt; Test Suites in VersionOne. Add a test suite and give it a Reference to one of your existing FitNesse suites.<br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 1263x859" href='attachments/Fitnesse/7209214.png'><img src="attachments/thumbnails/Fitnesse/7209214" border="0"/></a></span></li>
+	<li>Assign the VersionOne TestSute to a Project<br/>
+Once the TestSuite is created, it must be assigned to a Project.  To accomplish this, edit the VersionOne Project details. <br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 916x727" href='attachments/Fitnesse/7209213.png'><img src="attachments/thumbnails/Fitnesse/7209213" border="0"/></a></span></li>
+	<li>Set the Reference Field on Test that are automated using FitNesse<br/>
+Finally, you need to relate a VersionOne Test to a Test defined in FitNesse.  When processing FitNesse TestSuites, V1Fit concatenates the &lt;rootpath&gt; and &lt;relativepagename&gt; values from all tests in the results file and then aggregates the results that meet the reference. Therefore each VersionOne Test must reference the fully qualified FitNesse test.  <br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 916x726" href='attachments/Fitnesse/7209215.png'><img src="attachments/thumbnails/Fitnesse/7209215" border="0"/></a></span></li>
+</ol>
+
+
+<h3><a name="VersionOneFitnessIntegration-ConfiguretheIntegration"></a>Configure the Integration<a name="VersionOneFitnessIntegration-ConfigureServiceHost"></a> </h3>
+<p>To configure V1Fit you need to run the ServiceHost configuration tool</p>
+<blockquote><p><tt>ServiceHostConfigTool.exe</tt></p></blockquote>
+<p>The following section describes how to configure your FitNesse integration using the use the configuration tool </p>
+<ol>
+	<li>Specify your VersionOne connection details on the <b>General</b><br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 728x711" href='attachments/Fitnesse/7209210.png'><img src="attachments/thumbnails/Fitnesse/7209210" border="0"/></a></span><br/>
+The following table describes the fields on this tab
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Field</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Server URL</td>
+<td class='confluenceTd'>This is the URL to your VersionOne server</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Username</td>
+<td class='confluenceTd'>VersionOne user that will create defects</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Password</td>
+<td class='confluenceTd'>Password for the specified user</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Use Windows Integrated Authentication</td>
+<td class='confluenceTd'>Check this box if you VersionOne server is configured to use Windows Integrated Authentication</td>
+</tr>
+</tbody></table>
+</div>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>When using the integrated authentication, V1Fit will authenticate to VersionOne using the Windows domain user under which the executable is running if both the username and password parameters are blank. If the username and password is entered, you must specify the windows domain account in the form "User@FullyQualifiedDomainName". If you are unsure what the fully qualified domain name is, see the Domain name shown on the 'Computer Name' tab in the My Computer...Properties dialog.</td></tr></table></div>
+<p>If there's a proxy between this machine and the VersionOne instance, you'll also need to configure the following settings:</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Field</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Use Proxy For Connection</td>
+<td class='confluenceTd'>Determines if the integration tries to connect through a Proxy</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Proxy URL</td>
+<td class='confluenceTd'>This is the URL to your Proxy Server</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Proxy Username</td>
+<td class='confluenceTd'>The username that will get you past this proxy</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Proxy Password</td>
+<td class='confluenceTd'>The password for the Proxy Username</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Proxy Domain</td>
+<td class='confluenceTd'>Name of Proxy Domain</td>
+</tr>
+</tbody></table>
+</div>
+</li>
+	<li>Once the VersionOne parameters are entered, press Verify button to continue.</li>
+	<li>Specify how to update Test in VersionOne on the <b>Tests</b> tab.<br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 728x711" href='attachments/Fitnesse/7209211.png'><img src="attachments/thumbnails/Fitnesse/7209211" border="0"/></a></span><br/>
+The following table describes the fields on this tab
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Field</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Disabled</td>
+<td class='confluenceTd'>Check this box to disable ChangeSet creation in VersionOne.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Reference Field Name</td>
+<td class='confluenceTd'>VersionOne Field name to search for FitNesse test identifier.  It's recommended that you use the Reference field; however if you are already using this field for another purpose, you may choose another text field, including custom fields.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Test Passed Status</td>
+<td class='confluenceTd'>Value to set when a FitNesse test passes</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Test Failed Status</td>
+<td class='confluenceTd'>Value to set when a FitNesse test fails</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Change Comment</td>
+<td class='confluenceTd'>Comment to use when setting values on VersionOne tests</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Description Suffix</td>
+<td class='confluenceTd'>If you are creating Defects, this text will appear in the description field</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Create Defect</td>
+<td class='confluenceTd'>Indicates whether the TestWriterService should create defects when automated tests fail for closed tests in VersionOne. Valid values are:<br class="atl-forced-newline" /> * All: The integration will create a VersionOne Defect for any closed test in the project when the FitNesse test fails <br class="atl-forced-newline" /> * Current Iteration: The integration will only create VersionOne Defects for closed tests within the current iteration when the FitNesse test fails <br class="atl-forced-newline" /> * None: The integration never create VersionOne defects<br class="atl-forced-newline" /></td>
+</tr>
+</tbody></table>
+</div>
+</li>
+	<li>Specify your FitNesse details on the <b>Fitnesse</b> tab.<br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 728x711" href='attachments/Fitnesse/7209212.png'><img src="attachments/thumbnails/Fitnesse/7209212" border="0"/></a></span><br/>
+The following table describes the fields on this tab
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Field</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Disabled</td>
+<td class='confluenceTd'>Check this box if you want to disable polling FitNesse for ChangeSets.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Watch</td>
+<td class='confluenceTd'>The directory to poll for FIT test results files.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Filter</td>
+<td class='confluenceTd'>The file filter to use when polling for FIT test results files; it may contain any valid search pattern (i.e. *.xml)</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Poll Interval</td>
+<td class='confluenceTd'>Determines how frequently the integration polls the Watch directory looking for new files.</td>
+</tr>
+</tbody></table>
+</div>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>When running V1Fit as a service, the account used to run the service (i.e. Log On As setting) must have the appropriate rights to read the Watch directory</td></tr></table></div></li>
+	<li>Save your changes and exit the program</li>
+</ol>
+
+
+<h2><a name="VersionOneFitnessIntegration-TechnicalDetails"></a>Technical Details</h2>
+<h4><a name="VersionOneFitnessIntegration-VersionOne.ServiceHost.exe.config"></a>VersionOne.ServiceHost.exe.config</h4>
+<p>VersionOne.ServiceHost.exe.config is the file that controls the behavior of <em>VersionOne.ServiceHost.exe</em>.  Values in this file are set by the configuration tool (<a href="#VersionOneFitnessIntegration-ConfigureServiceHost"><em>ServiceHostConfigTool.exe</em></a>).  This section is provided for informational use only.  Users are discouraged from editing this file directly.</p>
+
+<p>The <b>FitReaderService</b> watches for new result files, interprets FIT test results, and publishes the results to the TestWriterService. FitReaderService processes XML files in the schema generated by fitnesse.runner.FormattingOption.  The following table describes the elements nested under FitReaderService.</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Element Name</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Watch</td>
+<td class='confluenceTd'>The directory to poll for FIT test results files. The account the service is running as (i.e. Log On As setting) must have read rights to the directory configured in the Watch element.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Filter</td>
+<td class='confluenceTd'>The file filter to use when polling for FIT test results files; it may contain any valid search pattern compatible with Directory.GetFiles()</td>
+</tr>
+</tbody></table>
+</div>
+
+
+<p>The TestWriterService element controls how Tests are updated in VersionOne. The following table describes the elements nested under TestWriterService. </p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Element Name</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>ApplicationUrl</td>
+<td class='confluenceTd'>The URL for your VersionOne application</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Username</td>
+<td class='confluenceTd'>The VersionOne account username, if using native VersionOne security. If using Windows Integrated Security, leave empty.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Password</td>
+<td class='confluenceTd'>The VersionOne account password, if using native VersionOne security. If using Windows Integrated Security, leave empty.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>APIVersion</td>
+<td class='confluenceTd'>The minimum application version required for this hosted service.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>IntegratedAuth</td>
+<td class='confluenceTd'>False if using VersionOne native security, True if using Windows Integrated Security. If VersionOne is configured to use Windows Integrated Security, the account the service is running as must be a configured VersionOne user with a project role of Team Member or higher. Also, Username and Password should be empty if IntegratedAuth is true.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>PassedOid</td>
+<td class='confluenceTd'>The TestStatus asset Oid in VersionOne that indicates test a test succeeded</td>
+</tr>
+<tr>
+<td class='confluenceTd'>FailedOid</td>
+<td class='confluenceTd'>The TestStatus asset Oid in VersionOne that indicates that a test failed</td>
+</tr>
+<tr>
+<td class='confluenceTd'>TestReferenceAttribute</td>
+<td class='confluenceTd'>The cross-reference used to associate tests in VersionOne to test in the external test system ('Number' is the default, 'Reference' another option)</td>
+</tr>
+<tr>
+<td class='confluenceTd'>ChangeComment</td>
+<td class='confluenceTd'>The change comment put into history for any modifications the service makes in VersionOne</td>
+</tr>
+<tr>
+<td class='confluenceTd'>DescriptionSuffix</td>
+<td class='confluenceTd'>A suffix for the description of any defects that the service creates; Embedded Rich Text (HTML) is valid in this suffix</td>
+</tr>
+<tr>
+<td class='confluenceTd'>CreateDefect</td>
+<td class='confluenceTd'>Indicates whether the TestWriterService should create defects when automated tests fail for closed tests in VersionOne. Valid values are:<br class="atl-forced-newline" />
+<ul>
+	<li>All: The integration will create a VersionOne Defect for any closed test in the project when the FitNesse test fails</li>
+	<li>CurrentIteration: The integration will only create VersionOne Defects for closed tests within the current iteration when the FitNesse test fails</li>
+	<li>None: The integration never create VersionOne defects<br class="atl-forced-newline" /></li>
+</ul>
+</td>
+</tr>
+<tr>
+</tr>
+</tbody></table>
+</div>
+
+
+
+<p>The FitReaderServiceTimer element triggers the FitReaderService every N milliseconds. The following table describes the elements nested under FitReaderServiceTimer.</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Element Name</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Interval</td>
+<td class='confluenceTd'>Number of milliseconds to wait between polls to the FitNesse system</td>
+</tr>
+<tr>
+<td class='confluenceTd'>PublishClass</td>
+<td class='confluenceTd'>Do Not Change</td>
+</tr>
+</tbody></table>
+</div>
+
+
+<h4><a name="VersionOneFitnessIntegration-ExampleFitnessefile"></a>Example Fitnesse file</h4>
+<p>The xml content below can be saved to a file and used for testing purposes.</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">
+&lt;?xml version=<span class="code-quote">"1.0"</span>?&gt;
+&lt;testResults&gt;
+	&lt;host&gt;localhost:8080&lt;/host&gt;
+	&lt;rootPath&gt;SuiteAllTests&lt;/rootPath&gt;
+	&lt;result&gt;
+		&lt;relativePageName&gt;SuiteProjectA.TestOne&lt;/relativePageName&gt;
+		&lt;content&gt;&lt;/content&gt;
+		&lt;counts&gt;
+			&lt;right&gt;1&lt;/right&gt;
+			&lt;wrong&gt;0&lt;/wrong&gt;
+			&lt;ignores&gt;0&lt;/ignores&gt;
+			&lt;exceptions&gt;0&lt;/exceptions&gt;
+		&lt;/counts&gt;
+	&lt;/result&gt;
+	&lt;finalCounts&gt;
+		&lt;right&gt;1&lt;/right&gt;
+		&lt;wrong&gt;0&lt;/wrong&gt;
+		&lt;ignores&gt;0&lt;/ignores&gt;
+		&lt;exceptions&gt;0&lt;/exceptions&gt;
+	&lt;/finalCounts&gt;
+&lt;/testResults&gt;
+</pre>
+</div></div>
+
+                    			    </td>
+<td style="width:10%"/>
+		    </tr>
+	    </table>
+ 	    <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td align="left"><font color="grey">Document generated on Aug 01, 2010 21:59</font></td>
+		    </tr>
+	    </table> 
+    </body>
+</html>
